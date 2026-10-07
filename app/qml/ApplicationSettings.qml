@@ -52,6 +52,10 @@ QtObject {
     property real burnInQuality: 0.5
 
     property bool blinkingCursor: false
+    property bool typingSoundEnabled: false
+    property bool humSoundEnabled: false
+    property real typingSoundVolume: 0.45
+    property real humSoundVolume: 0.35
 
 
     // PROFILE SETTINGS ///////////////////////////////////////////////////////
@@ -89,6 +93,7 @@ QtObject {
 
     property real _frameShininess: 0.2
     property real frameShininess: _frameShininess * 0.5
+    property real frameRim: 0.0
 
     property real _frameSize: 0.2
     property real frameSize: _frameSize * 0.05
@@ -167,7 +172,11 @@ QtObject {
             "bloomQuality": bloomQuality,
             "burnInQuality": burnInQuality,
             "useCustomCommand": useCustomCommand,
-            "customCommand": customCommand
+            "customCommand": customCommand,
+            "typingSoundEnabled": typingSoundEnabled,
+            "humSoundEnabled": humSoundEnabled,
+            "typingSoundVolume": typingSoundVolume,
+            "humSoundVolume": humSoundVolume
         }
         return stringify(settings)
     }
@@ -201,7 +210,8 @@ QtObject {
             "frameSize": _frameSize,
             "screenRadius": _screenRadius,
             "frameColor": _frameColor,
-            "frameShininess": _frameShininess
+            "frameShininess": _frameShininess,
+            "frameRim": frameRim
         }
         return profile
     }
@@ -261,6 +271,12 @@ QtObject {
                 !== undefined ? settings.useCustomCommand : useCustomCommand
         customCommand = settings.customCommand
                 !== undefined ? settings.customCommand : customCommand
+        typingSoundEnabled = settings.typingSoundEnabled !== undefined
+                ? settings.typingSoundEnabled : settings.soundEnabled === true
+        humSoundEnabled = settings.humSoundEnabled !== undefined
+                ? settings.humSoundEnabled : settings.soundEnabled === true
+        typingSoundVolume = settings.typingSoundVolume !== undefined ? settings.typingSoundVolume : 0.45
+        humSoundVolume = settings.humSoundVolume !== undefined ? settings.humSoundVolume : 0.35
     }
 
     function loadProfileString(profileString) {
@@ -307,6 +323,7 @@ QtObject {
         _screenRadius = settings.screenRadius !== undefined ? settings.screenRadius : _screenRadius
         _frameColor = settings.frameColor !== undefined ? settings.frameColor : _frameColor
         _frameShininess = settings.frameShininess !== undefined ? settings.frameShininess : _frameShininess
+        frameRim = settings.frameRim !== undefined ? settings.frameRim : 0.0
 
         blinkingCursor = settings.blinkingCursor !== undefined ? settings.blinkingCursor : blinkingCursor
     }

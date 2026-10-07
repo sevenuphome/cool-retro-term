@@ -18,6 +18,7 @@
 * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *******************************************************************************/
 import QtQuick 2.2
+import QtMultimedia
 
 import "menus"
 
@@ -30,6 +31,28 @@ QtObject {
 
     property TimeManager timeManager: TimeManager {
         enableTimer: windowsModel.count > 0
+    }
+
+    property SoundEffect crtSound: SoundEffect {
+        property bool enabled: appSettings.humSoundEnabled
+        source: "qrc:/sounds/crt-hum-and-hiss.wav"
+        loops: SoundEffect.Infinite
+        volume: appSettings.humSoundVolume
+        onEnabledChanged: enabled ? play() : stop()
+        onStatusChanged: {
+            if (appSettings.verbose)
+                console.log("CRT sound status:", status)
+            if (status === SoundEffect.Ready && enabled)
+                play()
+        }
+        onPlayingChanged: if (appSettings.verbose) console.log("CRT sound playing:", playing)
+    }
+
+    property SoundEffect keySound: SoundEffect {
+        source: "qrc:/sounds/mechanical-key.wav"
+        volume: appSettings.typingSoundVolume
+        muted: !appSettings.typingSoundEnabled
+        onStatusChanged: if (appSettings.verbose) console.log("Keyboard sound status:", status)
     }
 
     property SettingsWindow settingsWindow: SettingsWindow {

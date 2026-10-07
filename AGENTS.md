@@ -1,0 +1,1 @@
+Before relevant project work, read `.context/compound.md` and reuse its decisions and verified results. After meaningful progress, update the relevant entries so future work can continue without repeating the investigation.

@@ -13,6 +13,7 @@ layout(std140, binding = 0) uniform ubuf {
     vec2 viewportSize;
     float ambientLight;
     float frameShininess;
+    float frameRim;
 };
 
 float min2(vec2 v) { return min(v.x, v.y); }
@@ -74,6 +75,13 @@ void main() {
     float noise = rand2(staticCoords * viewportSize) - 0.5;
     frameTint = clamp(frameTint + vec3(noise * 0.04), 0.0, 1.0);
     vec3 color = mix(frameTint, vec3(glass), inScreen);
+
+    float rimWidth = 2.0 + frameRim * 4.0;
+    float rimMask = smoothstep(0.0, 1.0, distPixels)
+        * (1.0 - smoothstep(rimWidth - 1.0, rimWidth, distPixels));
+    vec3 rimColor = vec3(0.58, 0.68, 0.54) * (1.0 - staticCoords.y * 0.35);
+    color = mix(color, frameTint * 0.25, (1.0 - inScreen) * frameRim);
+    color = mix(color, rimColor, rimMask * frameRim);
 
     fragColor = vec4(color, alpha) * qt_Opacity;
 }

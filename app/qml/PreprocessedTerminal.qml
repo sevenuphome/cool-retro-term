@@ -96,6 +96,15 @@ Item{
     QMLTermWidget {
         id: kterminal
 
+        Keys.onPressed: function(event) {
+            if (appSettings.typingSoundEnabled) {
+                appRoot.keySound.play()
+                if (appSettings.verbose)
+                    console.log("Mechanical key click")
+            }
+            event.accepted = false
+        }
+
         property int textureResolutionScale: appSettings.lowResolutionFont ? Screen.devicePixelRatio : 1
         property int margin: appSettings.margin / screenScaling
         property int totalWidth: Math.floor(parent.width / (screenScaling * fontWidth))

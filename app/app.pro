@@ -1,4 +1,4 @@
-QT += qml quick widgets sql quickcontrols2
+QT += qml quick widgets sql quickcontrols2 multimedia
 TARGET = cool-retro-term
 APP_VERSION = $$system(git -C $$PWD/.. describe --tags --always --dirty=-dirty)
 isEmpty(APP_VERSION): APP_VERSION = "unknown"

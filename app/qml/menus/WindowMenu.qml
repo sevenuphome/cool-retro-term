@@ -38,6 +38,7 @@ MenuBar {
         MenuItem { action: pasteAction }
         MenuSeparator {}
         MenuItem { action: showsettingsAction }
+        MenuItem { action: showSoundSettingsAction }
     }
     Menu {
         id: viewMenu

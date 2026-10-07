@@ -20,11 +20,13 @@
 import QtQuick
 import QtQuick.Window
 import QtQuick.Controls
+import QtQuick.Layouts
 
 import "menus"
 
 ApplicationWindow {
     id: terminalWindow
+    flags: Qt.Window | Qt.FramelessWindowHint
 
     width: 1024
     height: 768
@@ -79,6 +81,11 @@ ApplicationWindow {
             settingsWindow.requestActivate()
             settingsWindow.raise()
         }
+    }
+    Action {
+        id: showSoundSettingsAction
+        text: qsTr("Sound settings…")
+        onTriggered: soundDialog.open()
     }
     Action {
         id: copyAction
@@ -179,6 +186,90 @@ ApplicationWindow {
         sourceComponent: SizeOverlay {
             z: 3
             terminalSize: terminalTabs.terminalSize
+        }
+    }
+    MouseArea {
+        anchors.top: parent.top
+        anchors.left: parent.left
+        anchors.right: parent.right
+        height: 64
+        z: 3
+        cursorShape: Qt.OpenHandCursor
+        onPressed: terminalWindow.startSystemMove()
+    }
+    Dialog {
+        id: soundDialog
+        parent: Overlay.overlay
+        anchors.centerIn: parent
+        width: Math.min(340, parent.width - 32)
+        title: qsTr("Sound settings")
+        modal: true
+        standardButtons: Dialog.Close
+        palette.window: "#14221a"
+        palette.windowText: "#d7e1b9"
+        palette.button: "#25392b"
+        palette.buttonText: "#d7e1b9"
+        palette.text: "#d7e1b9"
+        contentItem: ColumnLayout {
+            spacing: 12
+            CheckBox {
+                text: qsTr("Mechanical typing sound")
+                checked: appSettings.typingSoundEnabled
+                onToggled: {
+                    appSettings.typingSoundEnabled = checked
+                    appSettings.storeSettings()
+                }
+            }
+            RowLayout {
+                Layout.fillWidth: true
+                Label { text: qsTr("Volume") }
+                Slider {
+                    id: typingVolumeSlider
+                    Layout.fillWidth: true
+                    from: 0
+                    to: 1
+                    stepSize: 0.01
+                    value: appSettings.typingSoundVolume
+                    Accessible.name: qsTr("Typing sound volume")
+                    onMoved: {
+                        appSettings.typingSoundVolume = value
+                        appSettings.storeSettings()
+                    }
+                }
+                Label {
+                    text: Math.round(typingVolumeSlider.value * 100) + "%"
+                    Layout.preferredWidth: 36
+                }
+            }
+            CheckBox {
+                text: qsTr("CRT hum and hiss")
+                checked: appSettings.humSoundEnabled
+                onToggled: {
+                    appSettings.humSoundEnabled = checked
+                    appSettings.storeSettings()
+                }
+            }
+            RowLayout {
+                Layout.fillWidth: true
+                Label { text: qsTr("Volume") }
+                Slider {
+                    id: humVolumeSlider
+                    Layout.fillWidth: true
+                    from: 0
+                    to: 1
+                    stepSize: 0.01
+                    value: appSettings.humSoundVolume
+                    Accessible.name: qsTr("CRT hum volume")
+                    onMoved: {
+                        appSettings.humSoundVolume = value
+                        appSettings.storeSettings()
+                    }
+                }
+                Label {
+                    text: Math.round(humVolumeSlider.value * 100) + "%"
+                    Layout.preferredWidth: 36
+                }
+            }
         }
     }
     onClosing: {

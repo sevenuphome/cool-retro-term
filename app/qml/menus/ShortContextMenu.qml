@@ -28,4 +28,6 @@ Menu {
     MenuItem {
         action: pasteAction
     }
+    MenuSeparator { }
+    MenuItem { action: showSoundSettingsAction }
 }

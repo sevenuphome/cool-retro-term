@@ -39,6 +39,9 @@ Makefile*
 # Ubuntu SDk
 *.excludes
 *.json
+!/examples/matrix-wall/Matrix Architect.json
+
+__pycache__/
 
 # Excludes compiled files
 

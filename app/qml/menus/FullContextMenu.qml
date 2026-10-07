@@ -31,6 +31,7 @@ Menu {
     MenuItem {
         action: showsettingsAction
     }
+    MenuItem { action: showSoundSettingsAction }
 
     Menu {
         title: qsTr("File")
@@ -57,6 +58,7 @@ Menu {
         MenuItem {
             action: showsettingsAction
         }
+        MenuItem { action: showSoundSettingsAction }
     }
     Menu {
         title: qsTr("View")

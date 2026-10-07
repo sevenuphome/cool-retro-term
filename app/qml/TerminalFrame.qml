@@ -36,6 +36,7 @@ ShaderEffect {
     property real screenCurvature: appSettings.screenCurvature * appSettings.screenCurvatureSize * terminalWindow.normalizedWindowScale
 
     property real frameShininess: appSettings.frameShininess
+    property real frameRim: appSettings.frameRim
 
     property real frameSize: appSettings.frameSize * terminalWindow.normalizedWindowScale
 
