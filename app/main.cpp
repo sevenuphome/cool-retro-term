@@ -5,6 +5,8 @@
 #include <QStringList>
 
 #include <QDir>
+#include <QFile>
+#include <QTemporaryFile>
 
 #include <QtWidgets/QApplication>
 #include <QIcon>
@@ -85,6 +87,23 @@ int main(int argc, char *argv[])
 
     QApplication app(argc, argv);
     app.setAttribute(Qt::AA_MacDontSwapCtrlAndMeta, true);
+    QTemporaryFile previewFeed;
+    QFile feedResource(QStringLiteral(":/scripts/matrix-wall.py"));
+    if (!previewFeed.open() || !feedResource.open(QIODevice::ReadOnly))
+        return EXIT_FAILURE;
+    previewFeed.write(feedResource.readAll());
+    previewFeed.flush();
+    if (app.arguments().contains(QStringLiteral("--tv-preview"))) {
+        app.setApplicationName(QStringLiteral("cool-retro-term-tv-preview"));
+        QQmlApplicationEngine previewEngine;
+        previewEngine.addImportPath(QCoreApplication::applicationDirPath() + "/../PlugIns");
+        previewEngine.rootContext()->setContextProperty("previewFeedPath", previewFeed.fileName());
+        previewEngine.load(QUrl(QStringLiteral("qrc:/TvDesignPreview.qml")));
+        if (previewEngine.rootObjects().isEmpty())
+            return EXIT_FAILURE;
+        QMetaObject::invokeMethod(previewEngine.rootObjects().constFirst(), "show");
+        return app.exec();
+    }
     app.setApplicationName(QStringLiteral("cool-retro-term"));
     app.setOrganizationName(QStringLiteral("cool-retro-term"));
     app.setOrganizationDomain(QStringLiteral("cool-retro-term"));
@@ -99,6 +118,7 @@ int main(int argc, char *argv[])
     }
 
     QQmlApplicationEngine engine;
+    engine.rootContext()->setContextProperty("previewFeedPath", previewFeed.fileName());
     FileIO fileIO;
 
     qmlRegisterType<FontManager>("CoolRetroTerm", 1, 0, "FontManager");

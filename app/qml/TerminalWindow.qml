@@ -87,6 +87,16 @@ ApplicationWindow {
         text: qsTr("Sound settings…")
         onTriggered: soundDialog.open()
     }
+    TvDesignPreview { id: tvDesignPreview }
+    Action {
+        id: showTvDesignPreviewAction
+        text: qsTr("TV design preview…")
+        onTriggered: {
+            tvDesignPreview.show()
+            tvDesignPreview.raise()
+            tvDesignPreview.requestActivate()
+        }
+    }
     Action {
         id: copyAction
         text: qsTr("Copy")

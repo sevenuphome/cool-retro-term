@@ -6,6 +6,9 @@
         <file>ApplicationSettings.qml</file>
         <file>SettingsWindow.qml</file>
         <file>TerminalWindow.qml</file>
+        <file>TvDesignPreview.qml</file>
+        <file>images/tv-frame-v1.png</file>
+        <file alias="scripts/matrix-wall.py">../../examples/matrix-wall/matrix-wall.py</file>
         <file>SettingsGeneralTab.qml</file>
         <file>PreprocessedTerminal.qml</file>
         <file>TimeManager.qml</file>
@@ -112,6 +115,7 @@
         <file>../shaders/terminal_static_rgb1_bloom1_curve1_shine0.frag.qsb</file>
         <file>../shaders/terminal_static_rgb1_bloom1_curve1_shine1.frag.qsb</file>
         <file>../shaders/terminal_frame.frag.qsb</file>
+        <file>../shaders/tv_preview_text.frag.qsb</file>
         <file>../shaders/burn_in.frag.qsb</file>
         <file>fonts/unscii/unscii-8-thin.ttf</file>
         <file>fonts/unscii/unscii-16-full.ttf</file>

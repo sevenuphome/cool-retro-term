@@ -51,6 +51,8 @@ MenuBar {
         }
         MenuItem { action: zoomIn }
         MenuItem { action: zoomOut }
+        MenuSeparator {}
+        MenuItem { action: showTvDesignPreviewAction }
     }
     Menu {
         id: profilesMenu
